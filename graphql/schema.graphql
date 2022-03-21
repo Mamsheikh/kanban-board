@@ -3,13 +3,32 @@
 
 
 type Query {
-  ok: Boolean!
+  task(userId: String!): Task
+  tasks: [Task]!
+  user(email: String!): User!
+  users: [User]!
+}
+
+enum Role {
+  FREE
+  SUBSCRIBED
+}
+
+type Task {
+  description: String
+  id: String!
+  status: String
+  title: String
+  user: [User]
+  userId: String
 }
 
 type User {
   email: String!
   id: String!
-  image: String
+  image: String!
   isAdmin: Boolean!
   name: String!
+  role: Role!
+  tasks: [Task]
 }
