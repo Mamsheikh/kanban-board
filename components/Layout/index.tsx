@@ -16,7 +16,7 @@ const Layout = ({ children }: any) => {
         <div className="border-b border-gray-200">
           <Header isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-auto  scrollbar scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300">
           <main className="inline-flex h-full overflow-hidden p-3">
             {children}
           </main>
