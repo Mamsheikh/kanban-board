@@ -11,7 +11,9 @@ const Layout = ({ children }: any) => {
           <Header />
         </div>
         <div className="flex-1 overflow-auto">
-          <main className="inline-flex p-3">{children}</main>
+          <main className="inline-flex h-full overflow-hidden p-3">
+            {children}
+          </main>
         </div>
       </div>
     </div>
