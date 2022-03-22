@@ -1,11 +1,34 @@
 import Link from 'next/link'
 import React from 'react'
 import { SiJirasoftware } from 'react-icons/si'
-import { AiOutlinePlus } from 'react-icons/ai'
-const Sidebar = () => {
+import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai'
+import { IoMdClose } from 'react-icons/io'
+
+interface Props {
+  isOpen: boolean
+  setIsOpen: (value: boolean | ((prevVar: boolean) => boolean)) => void
+}
+
+const Sidebar = ({ isOpen, setIsOpen }: Props) => {
   return (
-    <div className="w-64 overflow-auto border-r bg-gray-100 px-8 py-4">
-      <SiJirasoftware className="h-9 w-9 text-gray-700" size={32} />
+    <div
+      className={`${
+        isOpen
+          ? 'translate-x-0 transition-all ease-out'
+          : '-translate-x-full transition-all ease-in'
+      } fixed inset-y-0 left-0 z-30 w-64 overflow-auto border-r bg-gray-100 px-8 py-4 lg:static lg:inset-auto lg:translate-x-0`}
+    >
+      <div className="-mx-3 mr-1 flex items-center justify-between pl-3">
+        <span>
+          <SiJirasoftware className="h-9 w-9 text-gray-700" size={32} />
+        </span>
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="text-gray-700 lg:hidden"
+        >
+          <IoMdClose className="h-7 w-7" />
+        </button>
+      </div>
       <nav className="mt-8">
         <h2 className="text-xs font-semibold uppercase tracking-wide text-gray-600">
           Issues

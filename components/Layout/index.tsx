@@ -1,14 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from './Header'
 import Sidebar from './Sidebar'
 
 const Layout = ({ children }: any) => {
+  const [isOpen, setIsOpen] = useState(false)
   return (
     <div className="flex h-screen">
-      <Sidebar />
+      <div
+        className={`${
+          isOpen ? 'block ' : 'hidden'
+        } fixed inset-0 bg-black opacity-50 transition-opacity lg:hidden `}
+      ></div>
+      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="flex min-w-0 flex-1 flex-col bg-white">
-        <div className="border-b-2 border-gray-200">
-          <Header />
+        <div className="border-b border-gray-200">
+          <Header isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
         <div className="flex-1 overflow-auto">
           <main className="inline-flex h-full overflow-hidden p-3">

@@ -29,13 +29,13 @@ const Home: NextPage = () => {
       {/* <div className="w-80 rounded-md bg-gray-100 p-3"> */}
       {sections.map((section, index) => {
         let filteredData: Array<Task> = data
-          ? data.tasks.filter((task: Task) => {
+          ? data.tasks.filter((task: Task, key = { index }) => {
               return task.status === section
             })
           : []
         return (
           <>
-            <BoardSection title={section} />
+            <BoardSection key={index} title={section} />
             {/* <BoardSection /> */}
           </>
         )
