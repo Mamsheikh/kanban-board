@@ -13,7 +13,7 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, closeModal }) => {
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
+          className="fixed inset-0 z-10 overflow-y-auto bg-black bg-opacity-50"
           onClose={closeModal}
         >
           <div className="min-h-screen px-4 text-center">
@@ -45,27 +45,72 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, closeModal }) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <div className="my-8 inline-block w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
+                  className="text-center text-lg font-medium leading-6 text-gray-900"
                 >
-                  Payment successful
+                  Add Issue
                 </Dialog.Title>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Your payment has been successfully submitted. We’ve sent you
-                    an email with all of the details of your order.
-                  </p>
+                <div className="space-y-4">
+                  <div className="">
+                    <label
+                      htmlFor=""
+                      className="text-lg font-medium text-gray-800"
+                    >
+                      Title
+                    </label>
+                    <input
+                      className="w-full rounded border p-2 outline-none"
+                      placeholder="Title"
+                      type="text"
+                    />
+                  </div>
+                  <div className="">
+                    <label
+                      htmlFor=""
+                      className="text-lg font-medium text-gray-800"
+                    >
+                      Description
+                    </label>
+                    <input
+                      className="w-full rounded border p-2 outline-none"
+                      placeholder="Description"
+                      type="text"
+                    />
+                  </div>
+                  <div className="">
+                    <label
+                      htmlFor=""
+                      className="text-lg font-medium text-gray-800"
+                    >
+                      Assign to
+                    </label>
+                    <select
+                      className="w-full rounded border p-2 outline-none"
+                      name=""
+                      id=""
+                    >
+                      <option value="">User 1</option>
+                      <option value="">User 2</option>
+                    </select>
+                  </div>
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 flex items-center justify-between">
+                  <button
+                    type="button"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    onClick={closeModal}
+                  >
+                    Cancel
+                  </button>
                   <button
                     type="button"
                     className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     onClick={closeModal}
                   >
-                    Got it, thanks!
+                    Add Issue
                   </button>
                 </div>
               </div>
