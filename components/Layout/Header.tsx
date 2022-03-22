@@ -2,12 +2,15 @@ import React, { useState } from 'react'
 import { AiOutlineSearch, AiOutlineBell, AiOutlinePlus } from 'react-icons/ai'
 import { HiMenuAlt2, HiOutlineViewList } from 'react-icons/hi'
 import { CgViewList } from 'react-icons/cg'
+import { useRecoilState } from 'recoil'
+import { showModalState } from '../../atoms/modal'
 
 interface Props {
   isOpen: boolean
   setIsOpen: (value: boolean | ((prevVar: boolean) => boolean)) => void
 }
 const Header = ({ isOpen, setIsOpen }: Props) => {
+  const [showModal, setShowModal] = useRecoilState(showModalState)
   return (
     <header className="">
       <div className="px-6">
@@ -89,7 +92,10 @@ const Header = ({ isOpen, setIsOpen }: Props) => {
               <CgViewList className="h-6 w-6 text-gray-500" />
             </button>
           </span>
-          <button className="ml-5 flex items-center rounded-md bg-gray-800 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700">
+          <button
+            onClick={() => setShowModal(!showModal)}
+            className="ml-5 flex items-center rounded-md bg-gray-800 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700"
+          >
             <AiOutlinePlus className="h-4 w-4" />
             <span className="ml-1">New Issue</span>
           </button>

@@ -2,6 +2,10 @@ import { gql, useQuery } from '@apollo/client'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useState } from 'react'
+import { useRecoilState } from 'recoil'
+import { showModal, showModalState } from '../atoms/modal'
+import AddTaskModal from '../components/AddTaskModal'
 import BoardSection from '../components/BoardSection'
 import Issue from '../components/Issue'
 
@@ -18,7 +22,12 @@ const AllTasksQuery = gql`
 const Home: NextPage = () => {
   const { data } = useQuery(AllTasksQuery)
   const sections: Array<String> = ['Backlog', 'In-Progress', 'Review', 'Done']
-  console.log(data)
+  const [showModal, setShowModal] = useRecoilState(showModalState)
+
+  const closeModal = () => {
+    setShowModal(!showModal)
+  }
+
   return (
     <>
       <Head>
@@ -40,6 +49,7 @@ const Home: NextPage = () => {
           </>
         )
       })}
+      <AddTaskModal closeModal={closeModal} isOpen={showModal} />
       {/* </div> */}
     </>
   )
