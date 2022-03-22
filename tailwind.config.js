@@ -4,7 +4,16 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    // screens: {
+    //   xxl: { max: '1600px' },
+    //   // => @media (max-width: 1535px) { ... }
+    // },
+    extend: {
+      screens: {
+        xxl: '1600px',
+        xxxl: '2000px',
+      },
+    },
   },
   plugins: [],
 }

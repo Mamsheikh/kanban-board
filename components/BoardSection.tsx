@@ -4,7 +4,7 @@ import Issue from './Issue'
 const BoardSection = ({ title }) => {
   return (
     <>
-      <div className="ml-3 flex w-80 flex-shrink-0 flex-col rounded-md bg-gray-100 ">
+      <div className="ml-3 flex w-80 flex-shrink-0 flex-col rounded-md bg-gray-100 xxl:w-[30rem] xxxl:w-[35rem] ">
         <h3 className="flex-shrink-0 px-3 pt-3 text-sm font-medium text-gray-700">
           {title}
         </h3>
