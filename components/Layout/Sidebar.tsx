@@ -4,7 +4,7 @@ import { SiJirasoftware } from 'react-icons/si'
 import { AiOutlinePlus } from 'react-icons/ai'
 const Sidebar = () => {
   return (
-    <div className="w-64 border-r bg-gray-100 px-8 py-4">
+    <div className="w-64 overflow-auto border-r bg-gray-100 px-8 py-4">
       <SiJirasoftware className="h-9 w-9 text-gray-700" size={32} />
       <nav className="mt-8">
         <h2 className="text-xs font-semibold uppercase tracking-wide text-gray-600">
