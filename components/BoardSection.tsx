@@ -1,7 +1,12 @@
 import React from 'react'
 import Issue from './Issue'
 
-const BoardSection = ({ title }) => {
+interface BoardSectionProps {
+  title: String
+  tasks: Array<Task>
+}
+
+const BoardSection: React.FC<BoardSectionProps> = ({ title, tasks }) => {
   return (
     <>
       <div className="ml-3 flex w-80 flex-shrink-0 flex-col rounded-md bg-gray-100 xxl:w-[30rem] xxxl:w-[35rem] ">
@@ -10,14 +15,14 @@ const BoardSection = ({ title }) => {
         </h3>
         <div className="min-h-0 flex-1 overflow-y-auto">
           <ul className="px-3 pt-2 pb-3">
-            <Issue />
-            <Issue />
-            <Issue />
-            <Issue />
-            <Issue />
-            <Issue />
-            <Issue />
-            {/* <Issue /> */}
+            {tasks &&
+              tasks.map((task: Task, index: number) => (
+                <Issue
+                  key={task.id}
+                  title={task.title}
+                  description={task.description}
+                />
+              ))}
           </ul>
         </div>
       </div>

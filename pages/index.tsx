@@ -17,7 +17,7 @@ const AllTasksQuery = gql`
 `
 const Home: NextPage = () => {
   const { data } = useQuery(AllTasksQuery)
-  const sections: Array<String> = ['Backlog', 'In-Progress,', 'Review', 'Done']
+  const sections: Array<String> = ['Backlog', 'In-Progress', 'Review', 'Done']
   console.log(data)
   return (
     <>
@@ -29,13 +29,13 @@ const Home: NextPage = () => {
       {/* <div className="w-80 rounded-md bg-gray-100 p-3"> */}
       {sections.map((section, index) => {
         let filteredData: Array<Task> = data
-          ? data.tasks.filter((task: Task, key = { index }) => {
+          ? data.tasks.filter((task: Task) => {
               return task.status === section
             })
           : []
         return (
           <>
-            <BoardSection key={index} title={section} />
+            <BoardSection key={index} title={section} tasks={filteredData} />
             {/* <BoardSection /> */}
           </>
         )
