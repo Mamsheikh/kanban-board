@@ -8,6 +8,7 @@ import { showModalState } from '../atoms/modal'
 import AddTaskModal from '../components/AddTaskModal'
 import BoardSection from '../components/BoardSection'
 import Issue from '../components/Issue'
+import { Task, useTasksQuery } from '../generated/graphql'
 
 const AllTasksQuery = gql`
   query {
@@ -20,7 +21,7 @@ const AllTasksQuery = gql`
   }
 `
 const Home: NextPage = () => {
-  const { data } = useQuery(AllTasksQuery)
+  const { data } = useTasksQuery()
   const sections: Array<String> = ['Backlog', 'In-Progress', 'Review', 'Done']
   const [showModal, setShowModal] = useRecoilState(showModalState)
 
@@ -44,7 +45,13 @@ const Home: NextPage = () => {
           : []
         return (
           <>
-            <BoardSection key={index} title={section} tasks={filteredData} />
+            <BoardSection
+              key={index}
+              title={section}
+              tasks={filteredData}
+              showModal={showModal}
+              setShowModal={setShowModal}
+            />
             {/* <BoardSection /> */}
           </>
         )

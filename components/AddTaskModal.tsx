@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 
 interface Props {
@@ -8,6 +8,17 @@ interface Props {
 }
 
 const AddTaskModal: React.FC<Props> = ({ isOpen, closeModal }) => {
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [assignTo, setAssignTo] = useState('')
+
+  const onSubmit = (e: any) => {
+    e.preventDefault()
+    console.log({ title, description, assignTo })
+
+    closeModal()
+  }
+
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -52,67 +63,75 @@ const AddTaskModal: React.FC<Props> = ({ isOpen, closeModal }) => {
                 >
                   Add Issue
                 </Dialog.Title>
-                <div className="space-y-4">
-                  <div className="">
-                    <label
-                      htmlFor=""
-                      className="text-lg font-medium text-gray-800"
-                    >
-                      Title
-                    </label>
-                    <input
-                      className="w-full rounded border p-2 outline-none"
-                      placeholder="Title"
-                      type="text"
-                    />
+                <form onSubmit={onSubmit}>
+                  <div className="space-y-4">
+                    <div className="">
+                      <label
+                        htmlFor=""
+                        className="text-lg font-medium text-gray-800"
+                      >
+                        Title
+                      </label>
+                      <input
+                        className="w-full rounded border p-2 outline-none"
+                        placeholder="Title"
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                      />
+                    </div>
+                    <div className="">
+                      <label
+                        htmlFor=""
+                        className="text-lg font-medium text-gray-800"
+                      >
+                        Description
+                      </label>
+                      <input
+                        className="w-full rounded border p-2 outline-none"
+                        placeholder="Description"
+                        type="text"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                      />
+                    </div>
+                    <div className="">
+                      <label
+                        htmlFor=""
+                        className="text-lg font-medium text-gray-800"
+                      >
+                        Assign to
+                      </label>
+                      <select
+                        className="w-full rounded border p-2 outline-none"
+                        name=""
+                        id=""
+                        value={assignTo}
+                        onChange={(e) => setAssignTo(e.target.value)}
+                      >
+                        <option value="user-1">User 1</option>
+                        <option value="user-2">User 2</option>
+                      </select>
+                    </div>
                   </div>
-                  <div className="">
-                    <label
-                      htmlFor=""
-                      className="text-lg font-medium text-gray-800"
-                    >
-                      Description
-                    </label>
-                    <input
-                      className="w-full rounded border p-2 outline-none"
-                      placeholder="Description"
-                      type="text"
-                    />
-                  </div>
-                  <div className="">
-                    <label
-                      htmlFor=""
-                      className="text-lg font-medium text-gray-800"
-                    >
-                      Assign to
-                    </label>
-                    <select
-                      className="w-full rounded border p-2 outline-none"
-                      name=""
-                      id=""
-                    >
-                      <option value="">User 1</option>
-                      <option value="">User 2</option>
-                    </select>
-                  </div>
-                </div>
 
-                <div className="mt-4 flex items-center justify-between">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    onClick={closeModal}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    onClick={closeModal}
-                  >
-                    Add Issue
-                  </button>
-                </div>
+                  <div className="mt-4 flex items-center justify-between">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={closeModal}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      // onClick={closeModal}
+                    >
+                      Add Issue
+                    </button>
+                  </div>
+                </form>
               </div>
             </Transition.Child>
           </div>

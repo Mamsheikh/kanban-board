@@ -1,12 +1,20 @@
 import React from 'react'
+import { AiOutlinePlus } from 'react-icons/ai'
 import Issue from './Issue'
 
 interface BoardSectionProps {
   title: String
   tasks: Array<Task>
+  showModal: boolean
+  setShowModal: (value: boolean) => void
 }
 
-const BoardSection: React.FC<BoardSectionProps> = ({ title, tasks }) => {
+const BoardSection: React.FC<BoardSectionProps> = ({
+  title,
+  tasks,
+  showModal,
+  setShowModal,
+}) => {
   return (
     <>
       <div className="ml-3 flex w-80 flex-shrink-0 flex-col rounded-md bg-gray-100 xxl:w-[30rem] xxxl:w-[35rem] ">
@@ -23,23 +31,31 @@ const BoardSection: React.FC<BoardSectionProps> = ({ title, tasks }) => {
                   description={task.description}
                 />
               ))}
+            {tasks.length > 0 && (
+              <button
+                onClick={() => setShowModal(!showModal)}
+                className="mt-2 flex w-full items-center justify-center text-center"
+              >
+                <span>
+                  <AiOutlinePlus className="h-4 w-4" />
+                </span>
+                <span>Add Issue</span>
+              </button>
+            )}
+            {tasks.length === 0 && (
+              <button
+                onClick={() => setShowModal(!showModal)}
+                className="mt-2 flex w-full items-center justify-center text-center"
+              >
+                <span>
+                  <AiOutlinePlus className="h-4 w-4" />
+                </span>
+                <span>Add Issue</span>
+              </button>
+            )}
           </ul>
         </div>
       </div>
-      {/* <div className="w-80 rounded-md bg-gray-100 p-3">
-        <h3 className="text-sm font-medium text-gray-900">{title}</h3>
-        <ul className="mt-2">
-          <Issue />
-          {/* <Issue /> */}
-      {/* </ul>
-      </div>
-      <div className="w-80 rounded-md bg-gray-100 p-3">
-        <h3 className="text-sm font-medium text-gray-900">{title}</h3>
-        <ul className="mt-2">
-          <Issue />
-          {/* <Issue /> */}
-      {/* </ul>
-      </div>   */}
     </>
   )
 }
