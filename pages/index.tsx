@@ -6,7 +6,12 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import { showModalState } from '../atoms/modal'
 import AddTaskModal from '../components/AddTaskModal'
 import BoardSection from '../components/BoardSection'
-import { Task, useTasksQuery } from '../generated/graphql'
+import {
+  Task,
+  useTasksQuery,
+  useUpdateTaskMutation,
+} from '../generated/graphql'
+import { useState } from 'react'
 
 const AllTasksQuery = gql`
   query {
@@ -23,8 +28,14 @@ interface Props {
   title: string
   tasks: Task
 }
-const Home: NextPage | React.FC<Props> = ({ title, tasks }: Props) => {
-  const { data } = useTasksQuery()
+const Home: NextPage = () => {
+  const [tasks, setTasks] = useState([])
+  const { data } = useTasksQuery({
+    onCompleted: (data) => {
+      setTasks(data.tasks)
+    },
+  })
+  const [updateTask] = useUpdateTaskMutation()
   const sections: Array<string> = ['Backlog', 'In-Progress', 'Review', 'Done']
   const [showModal, setShowModal] = useRecoilState(showModalState)
 
@@ -34,7 +45,33 @@ const Home: NextPage | React.FC<Props> = ({ title, tasks }: Props) => {
 
   const onDragEnd = (result) => {
     const { source, destination, draggableId } = result
-    console.log(result)
+
+    if (!destination) {
+      return
+    }
+    if (destination.droppableId === source.droppableId) return
+
+    updateTask({
+      variables: {
+        updateTaskId: draggableId,
+        status: destination.droppableId,
+      },
+    })
+
+    const updateTasksList =
+      tasks &&
+      tasks.map((t: any) => {
+        if (t.id === draggableId) {
+          return {
+            ...t,
+            status: destination.droppableId,
+          }
+        } else {
+          return t
+        }
+      })
+
+    setTasks(updateTasksList)
   }
   return (
     <>
