@@ -1,6 +1,9 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { useUpdateTaskMutation } from '../generated/graphql'
+import {
+  useDeleteTaskMutation,
+  useUpdateTaskMutation,
+} from '../generated/graphql'
 import { useRecoilState } from 'recoil'
 import { statuState } from '../atoms/status'
 
@@ -23,6 +26,7 @@ const UpdateTaskModal: React.FC<Props> = ({
   boardCategory,
 }) => {
   const [updateTask, { loading, error }] = useUpdateTaskMutation()
+  const [deleteTask] = useDeleteTaskMutation()
   const [taskTitle, setTaskTitle] = useState(title)
   const [taskDescription, setTaskDescription] = useState(description)
   const [status, setStatus] = useRecoilState(statuState)
@@ -41,7 +45,14 @@ const UpdateTaskModal: React.FC<Props> = ({
 
     closeModal()
   }
-
+  const handleDeleteTask = () => {
+    deleteTask({
+      variables: {
+        deleteTaskId: id,
+      },
+    })
+    closeModal()
+  }
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -142,9 +153,9 @@ const UpdateTaskModal: React.FC<Props> = ({
                     <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModal}
+                      onClick={handleDeleteTask}
                     >
-                      Cancel
+                      Delete
                     </button>
                     <button
                       type="submit"
