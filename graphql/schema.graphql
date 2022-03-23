@@ -20,7 +20,7 @@ enum Role {
 
 type Task {
   description: String
-  id: String
+  id: String!
   status: String
   title: String
   user: [User]

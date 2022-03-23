@@ -54,7 +54,7 @@ export enum Role {
 export type Task = {
   __typename?: 'Task';
   description?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
   status?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   user?: Maybe<Array<Maybe<User>>>;
@@ -79,12 +79,12 @@ export type CreateTaskMutationVariables = Exact<{
 }>;
 
 
-export type CreateTaskMutation = { __typename?: 'Mutation', createTask?: { __typename?: 'Task', id?: string | null, title?: string | null, status?: string | null, description?: string | null, userId?: string | null, user?: Array<{ __typename?: 'User', name: string, email: string, image: string, id: string } | null> | null } | null };
+export type CreateTaskMutation = { __typename?: 'Mutation', createTask?: { __typename?: 'Task', id: string, title?: string | null, status?: string | null, description?: string | null, userId?: string | null, user?: Array<{ __typename?: 'User', name: string, email: string, image: string, id: string } | null> | null } | null };
 
 export type TasksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id?: string | null, title?: string | null, status?: string | null, description?: string | null, user?: Array<{ __typename?: 'User', id: string, email: string } | null> | null } | null> };
+export type TasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, title?: string | null, status?: string | null, description?: string | null, user?: Array<{ __typename?: 'User', id: string, email: string, image: string, isAdmin: boolean, role: Role, name: string } | null> | null } | null> };
 
 
 export const CreateTaskDocument = gql`
@@ -142,6 +142,10 @@ export const TasksDocument = gql`
     user {
       id
       email
+      image
+      isAdmin
+      role
+      name
     }
   }
 }

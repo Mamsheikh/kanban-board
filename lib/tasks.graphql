@@ -7,6 +7,10 @@ query Tasks {
     user {
       id
       email
+      image
+      isAdmin
+      role
+      name
     }
   }
 }

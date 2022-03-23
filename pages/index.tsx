@@ -1,13 +1,10 @@
 import { gql, useQuery } from '@apollo/client'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import { useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { showModalState } from '../atoms/modal'
 import AddTaskModal from '../components/AddTaskModal'
 import BoardSection from '../components/BoardSection'
-import Issue from '../components/Issue'
 import { Task, useTasksQuery } from '../generated/graphql'
 
 const AllTasksQuery = gql`
@@ -20,9 +17,14 @@ const AllTasksQuery = gql`
     }
   }
 `
-const Home: NextPage = () => {
+
+interface Props {
+  title: string
+  tasks: Task
+}
+const Home: NextPage | React.FC<Props> = ({ title, tasks }: Props) => {
   const { data } = useTasksQuery()
-  const sections: Array<String> = ['Backlog', 'In-Progress', 'Review', 'Done']
+  const sections: Array<string> = ['Backlog', 'In-Progress', 'Review', 'Done']
   const [showModal, setShowModal] = useRecoilState(showModalState)
 
   const closeModal = () => {
@@ -40,7 +42,7 @@ const Home: NextPage = () => {
       {sections.map((section, index) => {
         let filteredData: Array<Task> = data
           ? data.tasks.filter((task: Task) => {
-              return task.status === section
+              return task?.status === section
             })
           : []
         return (
@@ -56,7 +58,11 @@ const Home: NextPage = () => {
           </>
         )
       })}
-      <AddTaskModal closeModal={closeModal} isOpen={showModal} />
+      <AddTaskModal
+        closeModal={closeModal}
+        isOpen={showModal}
+        boardCategory={'Backlog'}
+      />
       {/* </div> */}
     </>
   )

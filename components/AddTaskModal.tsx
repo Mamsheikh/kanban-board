@@ -1,20 +1,36 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
+import { useCreateTaskMutation } from '../generated/graphql'
+import { useRecoilState } from 'recoil'
+import { statuState } from '../atoms/status'
 
 interface Props {
   isOpen: boolean
   //   setIsOpen: (value: boolean) => void
   closeModal: () => void
+  boardCategory: string
 }
 
-const AddTaskModal: React.FC<Props> = ({ isOpen, closeModal }) => {
+const AddTaskModal: React.FC<Props> = ({
+  isOpen,
+  closeModal,
+  boardCategory,
+}) => {
+  const [createTask, { loading, error }] = useCreateTaskMutation()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [status, setStatus] = useRecoilState(statuState)
   const [assignTo, setAssignTo] = useState('')
 
   const onSubmit = (e: any) => {
     e.preventDefault()
-    console.log({ title, description, assignTo })
+    createTask({
+      variables: {
+        title,
+        description,
+        status,
+      },
+    })
 
     closeModal()
   }

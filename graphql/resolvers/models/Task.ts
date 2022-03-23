@@ -3,9 +3,9 @@ import { objectType } from 'nexus'
 export const Task = objectType({
   name: 'Task',
   definition(t) {
-    t.string('id')
+    t.nonNull.string('id')
     t.string('title')
-    t.string('status')
+    t.nullable.string('status')
     t.string('description')
     t.string('userId')
     // t.nonNull.string('createdAt')

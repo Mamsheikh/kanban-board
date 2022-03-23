@@ -1,20 +1,27 @@
 import React from 'react'
 import { AiOutlinePlus } from 'react-icons/ai'
+import { useRecoilState } from 'recoil'
+import { showModalState } from '../atoms/modal'
+import { statuState } from '../atoms/status'
+import { Task } from '../generated/graphql'
+import AddTaskModal from './AddTaskModal'
 import Issue from './Issue'
 
 interface BoardSectionProps {
-  title: String
+  title: string
   tasks: Array<Task>
   showModal: boolean
   setShowModal: (value: boolean) => void
 }
 
-const BoardSection: React.FC<BoardSectionProps> = ({
-  title,
-  tasks,
-  showModal,
-  setShowModal,
-}) => {
+const BoardSection: React.FC<BoardSectionProps> = ({ title, tasks }) => {
+  const [showModal, setShowModal] = useRecoilState(showModalState)
+  const [status, setStatus] = useRecoilState(statuState)
+
+  const onClick = () => {
+    setStatus(title)
+    setShowModal(!showModal)
+  }
   return (
     <>
       <div className="ml-3 flex w-80 flex-shrink-0 flex-col rounded-md bg-gray-100 xxl:w-[30rem] xxxl:w-[35rem] ">
@@ -33,7 +40,7 @@ const BoardSection: React.FC<BoardSectionProps> = ({
               ))}
             {tasks.length > 0 && (
               <button
-                onClick={() => setShowModal(!showModal)}
+                onClick={onClick}
                 className="mt-2 flex w-full items-center justify-center text-center"
               >
                 <span>
@@ -44,7 +51,7 @@ const BoardSection: React.FC<BoardSectionProps> = ({
             )}
             {tasks.length === 0 && (
               <button
-                onClick={() => setShowModal(!showModal)}
+                onClick={onClick}
                 className="mt-2 flex w-full items-center justify-center text-center"
               >
                 <span>
@@ -56,6 +63,11 @@ const BoardSection: React.FC<BoardSectionProps> = ({
           </ul>
         </div>
       </div>
+      {/* <AddTaskModal
+        closeModal={closeModal}
+        isOpen={showModal}
+        boardCategory={title}
+      /> */}
     </>
   )
 }
