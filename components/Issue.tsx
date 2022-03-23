@@ -1,14 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
+import UpdateTaskModal from './UpdateTaskModal'
 
 interface TaskProps {
-  title: String
-  description: String
+  title: string
+  description: string
+  status: string
+  id: string
 }
 
-const Issue: React.FC<TaskProps> = ({ title, description }) => {
+const Issue: React.FC<TaskProps> = ({ title, description, status, id }) => {
+  const [showModal, setShowModal] = useState(false)
+  const closeModal = () => {
+    setShowModal(!showModal)
+  }
+
   return (
     <>
-      <li className="mt-3 rounded-md bg-white p-5 shadow">
+      <li
+        onClick={() => setShowModal(!showModal)}
+        className="mt-3 cursor-pointer rounded-md bg-white p-5 shadow"
+      >
         <div className="flex justify-between">
           <p className="text-sm font-medium leading-snug text-gray-900">
             {description}
@@ -39,6 +50,14 @@ const Issue: React.FC<TaskProps> = ({ title, description }) => {
           </div>
         </div>
       </li>
+      <UpdateTaskModal
+        title={title}
+        description={description}
+        boardCategory={status}
+        id={id}
+        isOpen={showModal}
+        closeModal={closeModal}
+      />
     </>
   )
 }

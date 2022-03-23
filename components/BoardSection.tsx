@@ -36,6 +36,8 @@ const BoardSection: React.FC<BoardSectionProps> = ({ title, tasks }) => {
                   key={task.id}
                   title={task.title}
                   description={task.description}
+                  status={title}
+                  id={task.id}
                 />
               ))}
             {tasks.length > 0 && (

@@ -22,6 +22,40 @@ export const TaskMutations = extendType({
           },
         })
       },
-    })
+    }),
+      //Update Task
+      t.field('updateTask', {
+        type: 'Task',
+        args: {
+          id: nonNull(stringArg()),
+          title: stringArg(),
+          description: stringArg(),
+          status: stringArg(),
+          userId: stringArg(),
+        },
+        resolve(_, args, ctx) {
+          return ctx.prisma.task.update({
+            where: { id: args.id },
+            data: {
+              title: args.title,
+              description: args.description,
+              status: args.status,
+              userId: args.userId,
+            },
+          })
+        },
+      }),
+      // Delete a Task
+      t.field('deleteTask', {
+        type: 'Task',
+        args: {
+          id: nonNull(stringArg()),
+        },
+        resolve(_, args, ctx) {
+          return ctx.prisma.task.delete({
+            where: { id: args.id },
+          })
+        },
+      })
   },
 })
