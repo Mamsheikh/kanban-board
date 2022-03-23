@@ -2,6 +2,7 @@ import { gql, useQuery } from '@apollo/client'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRecoilState } from 'recoil'
+import { DragDropContext } from 'react-beautiful-dnd'
 import { showModalState } from '../atoms/modal'
 import AddTaskModal from '../components/AddTaskModal'
 import BoardSection from '../components/BoardSection'
@@ -31,6 +32,10 @@ const Home: NextPage | React.FC<Props> = ({ title, tasks }: Props) => {
     setShowModal(!showModal)
   }
 
+  const onDragEnd = (result) => {
+    const { source, destination, draggableId } = result
+    console.log(result)
+  }
   return (
     <>
       <Head>
@@ -39,30 +44,33 @@ const Home: NextPage | React.FC<Props> = ({ title, tasks }: Props) => {
       </Head>
 
       {/* <div className="w-80 rounded-md bg-gray-100 p-3"> */}
-      {sections.map((section, index) => {
-        let filteredData: Array<Task> = data
-          ? data.tasks.filter((task: Task) => {
-              return task?.status === section
-            })
-          : []
-        return (
-          <>
-            <BoardSection
-              key={index}
-              title={section}
-              tasks={filteredData}
-              showModal={showModal}
-              setShowModal={setShowModal}
-            />
-            {/* <BoardSection /> */}
-          </>
-        )
-      })}
+      <DragDropContext onDragEnd={onDragEnd}>
+        {sections.map((section, index) => {
+          let filteredData: Array<Task> = data
+            ? data.tasks.filter((task: Task) => {
+                return task?.status === section
+              })
+            : []
+          return (
+            <>
+              <BoardSection
+                key={index}
+                title={section}
+                tasks={filteredData}
+                showModal={showModal}
+                setShowModal={setShowModal}
+              />
+              {/* <BoardSection /> */}
+            </>
+          )
+        })}
+      </DragDropContext>
       <AddTaskModal
         closeModal={closeModal}
         isOpen={showModal}
         boardCategory={'Backlog'}
       />
+
       {/* </div> */}
     </>
   )
