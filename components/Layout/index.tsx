@@ -1,11 +1,14 @@
 import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
+import { useRecoilState } from 'recoil'
+import { loadingState } from '../../atoms/loading'
 import Header from './Header'
 import Sidebar from './Sidebar'
 
 const Layout = ({ children }: any) => {
   const { data: session } = useSession()
   const [isOpen, setIsOpen] = useState(false)
+  const [loaderState, setLoadingState] = useRecoilState(loadingState)
 
   if (!session) {
     return <div>{children}</div>
@@ -24,7 +27,11 @@ const Layout = ({ children }: any) => {
           <Header isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
         <div className="flex-1 overflow-auto  scrollbar scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300">
-          <main className="inline-flex h-full overflow-hidden p-3">
+          <main
+            className={` ${
+              loaderState ? '' : 'inline-flex'
+            } h-full overflow-hidden p-3`}
+          >
             {children}
           </main>
         </div>

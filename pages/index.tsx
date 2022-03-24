@@ -14,6 +14,8 @@ import {
 import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import HeroSection from '../components/HeroSection'
+import { BallTriangle } from 'react-loader-spinner'
+import { loadingState } from '../atoms/loading'
 
 const Home: NextPage = () => {
   const { data: session } = useSession()
@@ -21,7 +23,7 @@ const Home: NextPage = () => {
     return <HeroSection />
   }
   const [tasks, setTasks] = useState([])
-  const { data } = useTasksQuery({
+  const { data, loading } = useTasksQuery({
     onCompleted: (data) => {
       setTasks(data.tasks)
     },
@@ -29,6 +31,7 @@ const Home: NextPage = () => {
   const [updateTask] = useUpdateTaskMutation()
   const sections: Array<string> = ['Backlog', 'In-Progress', 'Review', 'Done']
   const [showModal, setShowModal] = useRecoilState(showModalState)
+  const [loaderState, setLoadingState] = useRecoilState(loadingState)
 
   const closeModal = () => {
     setShowModal(!showModal)
@@ -64,6 +67,23 @@ const Home: NextPage = () => {
 
     setTasks(updateTasksList)
   }
+
+  if (loading) {
+    setLoadingState(true)
+    return (
+      <div className="mx-auto ml-12 flex h-screen items-center justify-center">
+        <BallTriangle
+          // heigth="100"
+          width="100"
+          color="grey"
+          ariaLabel="loading-indicator"
+        />
+      </div>
+    )
+  } else {
+    setLoadingState(false)
+  }
+
   return (
     <>
       <Head>
