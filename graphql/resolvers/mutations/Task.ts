@@ -40,7 +40,8 @@ export const TaskMutations = extendType({
               title: args.title,
               description: args.description,
               status: args.status,
-              user: { connect: { id: args.userId } },
+              userId: args.userId,
+              // user: { connect: { id: args.userId } },
             },
           })
         },
