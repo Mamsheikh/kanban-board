@@ -18,7 +18,7 @@ export const TaskMutations = extendType({
             title: args.title,
             description: args.description,
             status: args.status,
-            userId: args.userId,
+            user: { connect: { id: args.userId } },
           },
         })
       },
@@ -40,7 +40,7 @@ export const TaskMutations = extendType({
               title: args.title,
               description: args.description,
               status: args.status,
-              userId: args.userId,
+              user: { connect: { id: args.userId } },
             },
           })
         },

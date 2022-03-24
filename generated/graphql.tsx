@@ -92,6 +92,7 @@ export type CreateTaskMutationVariables = Exact<{
   title: Scalars['String'];
   description: Scalars['String'];
   status: Scalars['String'];
+  userId?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -107,22 +108,33 @@ export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask?: { __typ
 export type TasksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, title?: string | null, status?: string | null, description?: string | null, user?: Array<{ __typename?: 'User', id: string, email: string, image: string, isAdmin: boolean, role: Role, name: string } | null> | null } | null> };
+export type TasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, title?: string | null, status?: string | null, description?: string | null, userId?: string | null } | null> };
 
 export type UpdateTaskMutationVariables = Exact<{
   updateTaskId: Scalars['String'];
   title?: InputMaybe<Scalars['String']>;
   description?: InputMaybe<Scalars['String']>;
   status?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['String']>;
 }>;
 
 
 export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask?: { __typename?: 'Task', title?: string | null, status?: string | null, id: string, description?: string | null, userId?: string | null, user?: Array<{ __typename?: 'User', id: string, name: string, image: string } | null> | null } | null };
 
+export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', name: string, id: string, email: string, image: string, isAdmin: boolean, role: Role, tasks?: Array<{ __typename?: 'Task', id: string, title?: string | null, status?: string | null, description?: string | null, userId?: string | null } | null> | null } | null> };
+
 
 export const CreateTaskDocument = gql`
-    mutation CreateTask($title: String!, $description: String!, $status: String!) {
-  createTask(title: $title, description: $description, status: $status) {
+    mutation CreateTask($title: String!, $description: String!, $status: String!, $userId: String) {
+  createTask(
+    title: $title
+    description: $description
+    status: $status
+    userId: $userId
+  ) {
     id
     title
     status
@@ -155,6 +167,7 @@ export type CreateTaskMutationFn = Apollo.MutationFunction<CreateTaskMutation, C
  *      title: // value for 'title'
  *      description: // value for 'description'
  *      status: // value for 'status'
+ *      userId: // value for 'userId'
  *   },
  * });
  */
@@ -207,14 +220,7 @@ export const TasksDocument = gql`
     title
     status
     description
-    user {
-      id
-      email
-      image
-      isAdmin
-      role
-      name
-    }
+    userId
   }
 }
     `;
@@ -246,12 +252,13 @@ export type TasksQueryHookResult = ReturnType<typeof useTasksQuery>;
 export type TasksLazyQueryHookResult = ReturnType<typeof useTasksLazyQuery>;
 export type TasksQueryResult = Apollo.QueryResult<TasksQuery, TasksQueryVariables>;
 export const UpdateTaskDocument = gql`
-    mutation UpdateTask($updateTaskId: String!, $title: String, $description: String, $status: String) {
+    mutation UpdateTask($updateTaskId: String!, $title: String, $description: String, $status: String, $userId: String) {
   updateTask(
     id: $updateTaskId
     title: $title
     description: $description
     status: $status
+    userId: $userId
   ) {
     title
     status
@@ -285,6 +292,7 @@ export type UpdateTaskMutationFn = Apollo.MutationFunction<UpdateTaskMutation, U
  *      title: // value for 'title'
  *      description: // value for 'description'
  *      status: // value for 'status'
+ *      userId: // value for 'userId'
  *   },
  * });
  */
@@ -295,3 +303,49 @@ export function useUpdateTaskMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdateTaskMutationHookResult = ReturnType<typeof useUpdateTaskMutation>;
 export type UpdateTaskMutationResult = Apollo.MutationResult<UpdateTaskMutation>;
 export type UpdateTaskMutationOptions = Apollo.BaseMutationOptions<UpdateTaskMutation, UpdateTaskMutationVariables>;
+export const UsersDocument = gql`
+    query Users {
+  users {
+    name
+    id
+    email
+    image
+    isAdmin
+    role
+    tasks {
+      id
+      title
+      status
+      description
+      userId
+    }
+  }
+}
+    `;
+
+/**
+ * __useUsersQuery__
+ *
+ * To run a query within a React component, call `useUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUsersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUsersQuery(baseOptions?: Apollo.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
+      }
+export function useUsersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, options);
+        }
+export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
+export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
+export type UsersQueryResult = Apollo.QueryResult<UsersQuery, UsersQueryVariables>;

@@ -3,12 +3,14 @@ mutation UpdateTask(
   $title: String
   $description: String
   $status: String
+  $userId: String
 ) {
   updateTask(
     id: $updateTaskId
     title: $title
     description: $description
     status: $status
+    userId: $userId
   ) {
     title
     status

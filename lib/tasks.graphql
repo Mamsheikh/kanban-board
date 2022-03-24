@@ -4,13 +4,6 @@ query Tasks {
     title
     status
     description
-    user {
-      id
-      email
-      image
-      isAdmin
-      role
-      name
-    }
+    userId
   }
 }

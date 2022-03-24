@@ -1,0 +1,17 @@
+query Users {
+  users {
+    name
+    id
+    email
+    image
+    isAdmin
+    role
+    tasks {
+      id
+      title
+      status
+      description
+      userId
+    }
+  }
+}

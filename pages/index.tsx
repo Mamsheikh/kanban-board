@@ -15,21 +15,6 @@ import { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import HeroSection from '../components/HeroSection'
 
-const AllTasksQuery = gql`
-  query {
-    tasks {
-      id
-      title
-      description
-      status
-    }
-  }
-`
-
-interface Props {
-  title: string
-  tasks: Task
-}
 const Home: NextPage = () => {
   const { data: session } = useSession()
   if (!session) {

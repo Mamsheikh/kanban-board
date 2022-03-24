@@ -9,7 +9,7 @@ export const Task = objectType({
     t.string('description')
     t.string('userId')
     // t.nonNull.string('createdAt')
-    t.list.field('user', {
+    t.field('user', {
       type: 'User',
       async resolve(parent, _, ctx) {
         return await ctx.prisma.task

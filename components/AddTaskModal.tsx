@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { useCreateTaskMutation } from '../generated/graphql'
+import { useCreateTaskMutation, useUsersQuery } from '../generated/graphql'
 import { useRecoilState } from 'recoil'
 import { statuState } from '../atoms/status'
 
@@ -17,18 +17,26 @@ const AddTaskModal: React.FC<Props> = ({
   boardCategory,
 }) => {
   const [createTask, { loading, error }] = useCreateTaskMutation()
+  const { data: userData } = useUsersQuery()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [status, setStatus] = useRecoilState(statuState)
   const [assignTo, setAssignTo] = useState('')
 
   const onSubmit = (e: any) => {
+    let userId = ''
+    if (assignTo) {
+      userId = assignTo
+    } else if (userData) {
+      userId = userData.users[0].id
+    }
     e.preventDefault()
     createTask({
       variables: {
         title,
         description,
         status,
+        userId,
       },
     })
 
@@ -125,8 +133,10 @@ const AddTaskModal: React.FC<Props> = ({
                         value={assignTo}
                         onChange={(e) => setAssignTo(e.target.value)}
                       >
-                        <option value="user-1">User 1</option>
-                        <option value="user-2">User 2</option>
+                        {userData &&
+                          userData.users.map((user) => (
+                            <option value={user.id}>{user.name}</option>
+                          ))}
                       </select>
                     </div>
                   </div>

@@ -3,6 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import {
   useDeleteTaskMutation,
   useUpdateTaskMutation,
+  useUsersQuery,
 } from '../generated/graphql'
 import { useRecoilState } from 'recoil'
 import { statuState } from '../atoms/status'
@@ -15,6 +16,7 @@ interface Props {
   id: string
   title: string
   description: string
+  userId: string
 }
 
 const UpdateTaskModal: React.FC<Props> = ({
@@ -24,22 +26,31 @@ const UpdateTaskModal: React.FC<Props> = ({
   isOpen,
   closeModal,
   boardCategory,
+  userId,
 }) => {
   const [updateTask, { loading, error }] = useUpdateTaskMutation()
   const [deleteTask] = useDeleteTaskMutation()
+  const { data: userData } = useUsersQuery()
   const [taskTitle, setTaskTitle] = useState(title)
   const [taskDescription, setTaskDescription] = useState(description)
   const [status, setStatus] = useRecoilState(statuState)
-  const [assignTo, setAssignTo] = useState('')
+  const [assignTo, setAssignTo] = useState(userId ? userId : '')
 
   const onSubmit = (e: any) => {
     e.preventDefault()
+    let userId = ''
+    if (assignTo) {
+      userId = assignTo
+    } else if (userData) {
+      userId = userData.users[0].id
+    }
     updateTask({
       variables: {
         updateTaskId: id,
         title: taskTitle,
         description: taskDescription,
         status: boardCategory,
+        userId,
       },
     })
 
@@ -143,8 +154,10 @@ const UpdateTaskModal: React.FC<Props> = ({
                         value={assignTo}
                         onChange={(e) => setAssignTo(e.target.value)}
                       >
-                        <option value="user-1">User 1</option>
-                        <option value="user-2">User 2</option>
+                        {userData &&
+                          userData.users.map((user) => (
+                            <option value={user.id}>{user.name}</option>
+                          ))}
                       </select>
                     </div>
                   </div>

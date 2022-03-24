@@ -1,5 +1,15 @@
-mutation CreateTask($title: String!, $description: String!, $status: String!) {
-  createTask(title: $title, description: $description, status: $status) {
+mutation CreateTask(
+  $title: String!
+  $description: String!
+  $status: String!
+  $userId: String
+) {
+  createTask(
+    title: $title
+    description: $description
+    status: $status
+    userId: $userId
+  ) {
     id
     title
     status
