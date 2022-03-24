@@ -8,6 +8,7 @@ import AddTaskModal from '../components/AddTaskModal'
 import BoardSection from '../components/BoardSection'
 import {
   Task,
+  TasksDocument,
   useTasksQuery,
   useUpdateTaskMutation,
 } from '../generated/graphql'
@@ -49,6 +50,27 @@ const Home: NextPage = () => {
       variables: {
         updateTaskId: draggableId,
         status: destination.droppableId,
+      },
+      update: (cache, { data }) => {
+        const existingTasks: any = cache.readQuery({
+          query: TasksDocument,
+        })
+        const updatedTasks = existingTasks!.tasks.map((t: any) => {
+          if (t.id === draggableId) {
+            return {
+              ...t,
+              ...data!.updateTask!,
+            }
+          } else {
+            return t
+          }
+        })
+        cache.writeQuery({
+          query: TasksDocument,
+          data: { tasks: updatedTasks },
+        })
+        const dataInCache = cache.readQuery({ query: TasksDocument })
+        // console.log('cache', dataInCache)
       },
     })
 

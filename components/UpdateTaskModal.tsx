@@ -61,6 +61,23 @@ const UpdateTaskModal: React.FC<Props> = ({
       variables: {
         deleteTaskId: id,
       },
+      update: (cache) => {
+        // const data : any = cache.readQuery({ query: AllTasksQuery });
+        // const updatedTasks = data.tasks.filter(({id: itemId}) => itemId !== id);
+        // cache.writeQuery({
+        //   query: AllTasksQuery,
+        //   data: {tasks: updatedTasks}
+        // });
+        cache.modify({
+          fields: {
+            tasks(existingTaskRefs, { readField }) {
+              return existingTaskRefs.filter(
+                (taskRef) => id !== readField('id', taskRef)
+              )
+            },
+          },
+        })
+      },
     })
     closeModal()
   }

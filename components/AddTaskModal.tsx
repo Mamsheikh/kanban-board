@@ -1,6 +1,10 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { useCreateTaskMutation, useUsersQuery } from '../generated/graphql'
+import {
+  TasksDocument,
+  useCreateTaskMutation,
+  useUsersQuery,
+} from '../generated/graphql'
 import { useRecoilState } from 'recoil'
 import { statuState } from '../atoms/status'
 
@@ -38,6 +42,7 @@ const AddTaskModal: React.FC<Props> = ({
         status,
         userId,
       },
+      refetchQueries: () => [{ query: TasksDocument }],
     })
 
     closeModal()
