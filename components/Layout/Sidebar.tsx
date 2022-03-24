@@ -20,7 +20,7 @@ const Sidebar = ({ isOpen, setIsOpen }: Props) => {
     >
       <div className="-mx-3 mr-1 flex items-center justify-between pl-3">
         <span>
-          <SiJirasoftware className="h-9 w-9 text-gray-700" size={32} />
+          <SiJirasoftware className="h-12 w-12 text-indigo-500" size={32} />
         </span>
         <button
           onClick={() => setIsOpen(!isOpen)}

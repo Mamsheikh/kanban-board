@@ -12,6 +12,8 @@ import {
   useUpdateTaskMutation,
 } from '../generated/graphql'
 import { useState } from 'react'
+import { useSession } from 'next-auth/react'
+import HeroSection from '../components/HeroSection'
 
 const AllTasksQuery = gql`
   query {
@@ -29,6 +31,10 @@ interface Props {
   tasks: Task
 }
 const Home: NextPage = () => {
+  const { data: session } = useSession()
+  if (!session) {
+    return <HeroSection />
+  }
   const [tasks, setTasks] = useState([])
   const { data } = useTasksQuery({
     onCompleted: (data) => {

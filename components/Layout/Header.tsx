@@ -4,12 +4,15 @@ import { HiMenuAlt2, HiOutlineViewList } from 'react-icons/hi'
 import { CgViewList } from 'react-icons/cg'
 import { useRecoilState } from 'recoil'
 import { showModalState } from '../../atoms/modal'
+import { useSession } from 'next-auth/react'
+import Dropdown from '../Dropdown'
 
 interface Props {
   isOpen: boolean
   setIsOpen: (value: boolean | ((prevVar: boolean) => boolean)) => void
 }
 const Header = ({ isOpen, setIsOpen }: Props) => {
+  const { data: session } = useSession()
   const [showModal, setShowModal] = useRecoilState(showModalState)
   return (
     <header className="">
@@ -37,13 +40,14 @@ const Header = ({ isOpen, setIsOpen }: Props) => {
             <button>
               <AiOutlineBell className="h-6 w-6 text-gray-600" />
             </button>
-            <button className="ml-6">
+            {/* <button className="ml-6">
               <img
                 className="h-9 w-9 rounded-full object-cover"
                 src="https://res.cloudinary.com/mamsheikh/image/upload/v1634847258/person-1_rfzshl_rk3fpl.jpg"
                 alt="profile"
               />
-            </button>
+            </button> */}
+            <Dropdown user={session?.user} />
           </div>
         </div>
       </div>

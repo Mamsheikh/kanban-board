@@ -1,9 +1,16 @@
+import { useSession } from 'next-auth/react'
 import React, { useState } from 'react'
 import Header from './Header'
 import Sidebar from './Sidebar'
 
 const Layout = ({ children }: any) => {
+  const { data: session } = useSession()
   const [isOpen, setIsOpen] = useState(false)
+
+  if (!session) {
+    return <div>{children}</div>
+  }
+
   return (
     <div className="flex h-screen">
       <div
