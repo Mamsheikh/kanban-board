@@ -73,7 +73,7 @@ export type Task = {
   id: Scalars['String'];
   status?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
-  user?: Maybe<Array<Maybe<User>>>;
+  user?: Maybe<User>;
   userId?: Maybe<Scalars['String']>;
 };
 
@@ -96,7 +96,7 @@ export type CreateTaskMutationVariables = Exact<{
 }>;
 
 
-export type CreateTaskMutation = { __typename?: 'Mutation', createTask?: { __typename?: 'Task', id: string, title?: string | null, status?: string | null, description?: string | null, userId?: string | null, user?: Array<{ __typename?: 'User', name: string, email: string, image: string, id: string } | null> | null } | null };
+export type CreateTaskMutation = { __typename?: 'Mutation', createTask?: { __typename?: 'Task', id: string, title?: string | null, status?: string | null, description?: string | null, userId?: string | null, user?: { __typename?: 'User', name: string, email: string, image: string, id: string } | null } | null };
 
 export type DeleteTaskMutationVariables = Exact<{
   deleteTaskId: Scalars['String'];
@@ -108,7 +108,7 @@ export type DeleteTaskMutation = { __typename?: 'Mutation', deleteTask?: { __typ
 export type TasksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, title?: string | null, status?: string | null, description?: string | null, userId?: string | null } | null> };
+export type TasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: string, title?: string | null, status?: string | null, description?: string | null, userId?: string | null, user?: { __typename?: 'User', id: string, image: string, name: string } | null } | null> };
 
 export type UpdateTaskMutationVariables = Exact<{
   updateTaskId: Scalars['String'];
@@ -119,7 +119,7 @@ export type UpdateTaskMutationVariables = Exact<{
 }>;
 
 
-export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask?: { __typename?: 'Task', title?: string | null, status?: string | null, id: string, description?: string | null, userId?: string | null, user?: Array<{ __typename?: 'User', id: string, name: string, image: string } | null> | null } | null };
+export type UpdateTaskMutation = { __typename?: 'Mutation', updateTask?: { __typename?: 'Task', title?: string | null, status?: string | null, id: string, description?: string | null, userId?: string | null, user?: { __typename?: 'User', id: string, name: string, image: string } | null } | null };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -221,6 +221,11 @@ export const TasksDocument = gql`
     status
     description
     userId
+    user {
+      id
+      image
+      name
+    }
   }
 }
     `;

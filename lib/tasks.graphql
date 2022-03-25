@@ -5,5 +5,10 @@ query Tasks {
     status
     description
     userId
+    user {
+      id
+      image
+      name
+    }
   }
 }

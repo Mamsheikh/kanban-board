@@ -5,6 +5,7 @@ import UpdateTaskModal from './UpdateTaskModal'
 interface TaskProps {
   title: string
   description: string
+  image: string
   status: string
   id: string
   index: number
@@ -15,6 +16,7 @@ const Issue: React.FC<TaskProps> = ({
   title,
   description,
   status,
+  image,
   id,
   index,
   userId,
@@ -42,8 +44,8 @@ const Issue: React.FC<TaskProps> = ({
               <span>
                 <img
                   className="h-6 w-6 rounded-full object-cover"
-                  src="https://res.cloudinary.com/mamsheikh/image/upload/v1634847258/person-1_rfzshl_rk3fpl.jpg"
-                  alt=""
+                  src={image}
+                  alt="profile"
                 />
               </span>
             </div>

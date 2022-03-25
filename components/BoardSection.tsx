@@ -41,6 +41,7 @@ const BoardSection: React.FC<BoardSectionProps> = ({ title, tasks }) => {
                     <Issue
                       key={task.id}
                       title={task.title}
+                      image={task.user.image}
                       description={task.description}
                       status={title}
                       id={task.id}
