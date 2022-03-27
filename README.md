@@ -6,7 +6,7 @@
 
 | Web UI |
 | ---------------------------------------------
-| ![web-screenshot](assets/asset1.png)
+| ![web-screenshot](https://github.com/Mamsheikh/kanban-board/blob/main/assets/asset1.PNG)
 | Web UI |
 | ---------------------------------------------
 | ![web-screenshot](assets/asset2.png)
