@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { toast } from 'react-hot-toast'
 import {
+  ProjectDocument,
   useDeleteTaskMutation,
   useUpdateTaskMutation,
   useUsersQuery,
@@ -16,6 +17,7 @@ interface Props {
   boardCategory: string
   id: string
   title: string
+  projectId: string
   description: string
   userId: string
 }
@@ -28,7 +30,9 @@ const UpdateTaskModal: React.FC<Props> = ({
   closeModal,
   boardCategory,
   userId,
+  projectId,
 }) => {
+  console.log('projectId', projectId)
   const [updateTask, { loading, error }] = useUpdateTaskMutation()
   const [deleteTask] = useDeleteTaskMutation()
   const { data: userData } = useUsersQuery()
@@ -69,6 +73,9 @@ const UpdateTaskModal: React.FC<Props> = ({
       variables: {
         deleteTaskId: id,
       },
+      refetchQueries: [
+        { query: ProjectDocument, variables: { projectId: projectId } },
+      ],
       update: (cache) => {
         // const data : any = cache.readQuery({ query: AllTasksQuery });
         // const updatedTasks = data.tasks.filter(({id: itemId}) => itemId !== id);

@@ -9,12 +9,17 @@ import Issue from './Issue'
 
 interface BoardSectionProps {
   title: string
+  projectId: string | string[]
   tasks: Array<Task>
   showModal: boolean
   setShowModal: (value: boolean) => void
 }
 
-const BoardSection: React.FC<BoardSectionProps> = ({ title, tasks }) => {
+const BoardSection: React.FC<BoardSectionProps> = ({
+  title,
+  tasks,
+  projectId,
+}) => {
   const [showModal, setShowModal] = useRecoilState(showModalState)
   const [status, setStatus] = useRecoilState(statuState)
 
@@ -44,6 +49,7 @@ const BoardSection: React.FC<BoardSectionProps> = ({ title, tasks }) => {
                       image={task.user?.image}
                       description={task.description}
                       status={title}
+                      projectId={projectId}
                       id={task.id}
                       userId={task.userId}
                       index={index}

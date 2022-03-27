@@ -7,6 +7,7 @@ interface TaskProps {
   description: string
   image: string
   status: string
+  projectId: string
   id: string
   index: number
   userId: string
@@ -20,6 +21,7 @@ const Issue: React.FC<TaskProps> = ({
   id,
   index,
   userId,
+  projectId,
 }) => {
   const [showModal, setShowModal] = useState(false)
   const closeModal = () => {
@@ -77,6 +79,7 @@ const Issue: React.FC<TaskProps> = ({
         isOpen={showModal}
         closeModal={closeModal}
         userId={userId}
+        projectId={projectId}
       />
     </>
   )
