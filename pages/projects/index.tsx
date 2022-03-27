@@ -13,7 +13,7 @@ interface Project {
   id: string
   name: string
   sourceCode: string
-  tasks: Task
+  tasks: Task[]
   user: User
   userId: string
   website: string
