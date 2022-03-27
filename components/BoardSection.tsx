@@ -9,7 +9,7 @@ import Issue from './Issue'
 
 interface BoardSectionProps {
   title: string
-  projectId: string | string[]
+  projectId: string
   tasks: Array<Task>
   showModal: boolean
   setShowModal: (value: boolean) => void

@@ -136,7 +136,7 @@ const Project = () => {
               key={index}
               title={section}
               tasks={filteredData}
-              projectId={projectId}
+              projectId={projectId as string}
               showModal={showModal}
               setShowModal={setShowModal}
             />
