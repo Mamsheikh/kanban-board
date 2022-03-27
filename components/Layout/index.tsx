@@ -1,4 +1,5 @@
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { loadingState } from '../../atoms/loading'
@@ -13,7 +14,6 @@ const Layout = ({ children }: any) => {
   if (!session) {
     return <div>{children}</div>
   }
-
   return (
     <div className="flex h-screen">
       <div

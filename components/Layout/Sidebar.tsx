@@ -20,7 +20,11 @@ const Sidebar = ({ isOpen, setIsOpen }: Props) => {
     >
       <div className="-mx-3 mr-1 flex items-center justify-between pl-3">
         <span>
-          <SiJirasoftware className="h-12 w-12 text-indigo-500" size={32} />
+          <Link href={'/projects'}>
+            <a>
+              <SiJirasoftware className="h-12 w-12 text-indigo-500" size={32} />
+            </a>
+          </Link>
         </span>
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -34,7 +38,7 @@ const Sidebar = ({ isOpen, setIsOpen }: Props) => {
           Issues
         </h2>
         <div className="-mx-3 mt-2">
-          <Link href="#">
+          <Link href="/projects">
             <a className=" flex items-center justify-between rounded-lg bg-gray-200 px-3 py-2">
               <span className=" text-sm font-medium text-gray-900">All</span>
               <span className="text-xs font-semibold text-gray-700">36</span>

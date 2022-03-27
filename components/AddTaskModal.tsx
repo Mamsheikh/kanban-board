@@ -1,26 +1,35 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
+import { toast } from 'react-hot-toast'
 import {
+  ProjectDocument,
   TasksDocument,
   useCreateTaskMutation,
   useUsersQuery,
 } from '../generated/graphql'
 import { useRecoilState } from 'recoil'
 import { statuState } from '../atoms/status'
+import { useRouter } from 'next/router'
 
 interface Props {
   isOpen: boolean
   //   setIsOpen: (value: boolean) => void
   closeModal: () => void
   boardCategory: string
+  projectId: string
 }
 
 const AddTaskModal: React.FC<Props> = ({
   isOpen,
   closeModal,
   boardCategory,
+  projectId,
 }) => {
-  const [createTask, { loading, error }] = useCreateTaskMutation()
+  const router = useRouter()
+  const refreshData = () => {
+    router.replace(router.asPath)
+  }
+  const [createTask, { loading, error }] = useCreateTaskMutation({})
   const { data: userData } = useUsersQuery()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -28,22 +37,34 @@ const AddTaskModal: React.FC<Props> = ({
   const [assignTo, setAssignTo] = useState('')
 
   const onSubmit = (e: any) => {
-    let userId = ''
-    if (assignTo) {
-      userId = assignTo
-    } else if (userData) {
-      userId = userData.users[0].id
-    }
+    // let userId = ''
+    // if (assignTo) {
+    //   userId = assignTo
+    // } else if (userData) {
+    //   userId = userData.users[0].id
+    // }
     e.preventDefault()
-    createTask({
-      variables: {
-        title,
-        description,
-        status,
-        userId,
-      },
-      refetchQueries: () => [{ query: TasksDocument }],
-    })
+    toast.promise(
+      createTask({
+        variables: {
+          title,
+          description,
+          status,
+          projectId,
+        },
+        refetchQueries: () => [
+          {
+            query: ProjectDocument,
+            variables: { projectId: projectId as string },
+          },
+        ],
+      }),
+      {
+        success: 'Task created 🎉',
+        error: 'Oops! something went wrong😓',
+        loading: 'Creating task...',
+      }
+    )
 
     closeModal()
   }
@@ -124,7 +145,7 @@ const AddTaskModal: React.FC<Props> = ({
                         onChange={(e) => setDescription(e.target.value)}
                       />
                     </div>
-                    <div className="">
+                    {/* <div className="">
                       <label
                         htmlFor=""
                         className="text-lg font-medium text-gray-800"
@@ -143,7 +164,7 @@ const AddTaskModal: React.FC<Props> = ({
                             <option value={user.id}>{user.name}</option>
                           ))}
                       </select>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="mt-4 flex items-center justify-between">

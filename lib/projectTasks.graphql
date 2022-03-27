@@ -1,0 +1,25 @@
+query Project($projectId: String!) {
+  project(projectId: $projectId) {
+    id
+    name
+    description
+    sourceCode
+    website
+    user {
+      id
+      name
+      email
+      image
+    }
+    tasks {
+      id
+      title
+      status
+      description
+      userId
+      user {
+        image
+      }
+    }
+  }
+}

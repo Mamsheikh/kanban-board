@@ -20,6 +20,18 @@ export const Task = objectType({
           })
           .user()
       },
-    })
+    }),
+      t.field('project', {
+        type: 'Project',
+        async resolve(parent, _, ctx) {
+          return await ctx.prisma.task
+            .findUnique({
+              where: {
+                id: parent.id,
+              },
+            })
+            .project()
+        },
+      })
   },
 })

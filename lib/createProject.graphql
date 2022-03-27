@@ -1,0 +1,27 @@
+mutation CreateProject(
+  $name: String!
+  $description: String!
+  $website: String
+  $sourceCode: String
+) {
+  createProject(
+    name: $name
+    description: $description
+    website: $website
+    sourceCode: $sourceCode
+  ) {
+    id
+    name
+    description
+    sourceCode
+    website
+    user {
+      id
+      email
+      name
+    }
+    tasks {
+      id
+    }
+  }
+}

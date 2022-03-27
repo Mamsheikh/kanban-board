@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil'
 import { showModalState } from '../../atoms/modal'
 import { useSession } from 'next-auth/react'
 import Dropdown from '../Dropdown'
+import Link from 'next/link'
 
 interface Props {
   isOpen: boolean
@@ -96,13 +97,15 @@ const Header = ({ isOpen, setIsOpen }: Props) => {
               <CgViewList className="h-6 w-6 text-gray-500" />
             </button>
           </span>
-          <button
-            onClick={() => setShowModal(!showModal)}
-            className="ml-5 flex items-center rounded-md bg-gray-800 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700"
-          >
-            <AiOutlinePlus className="h-4 w-4" />
-            <span className="ml-1">New Issue</span>
-          </button>
+          <Link href="/new">
+            <a
+              // onClick={() => setShowModal(!showModal)}
+              className="ml-5 flex items-center rounded-md bg-gray-800 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700"
+            >
+              <AiOutlinePlus className="h-4 w-4" />
+              <span className="ml-1">New Project</span>
+            </a>
+          </Link>
         </div>
       </div>
       <div className="flex  border-t border-b bg-gray-200 p-[3px] px-4 sm:hidden">

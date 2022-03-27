@@ -3,7 +3,6 @@ query Users {
     name
     id
     email
-    image
     isAdmin
     role
     tasks {

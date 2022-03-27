@@ -6,7 +6,7 @@ export const User = objectType({
     t.nonNull.string('id')
     t.nonNull.string('name')
     t.nonNull.string('email')
-    t.nonNull.string('image')
+    t.string('image')
     t.nonNull.boolean('isAdmin')
     t.nonNull.field('role', {
       type: Role,

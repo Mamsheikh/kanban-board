@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
+import { toast } from 'react-hot-toast'
 import {
   useDeleteTaskMutation,
   useUpdateTaskMutation,
@@ -44,15 +45,22 @@ const UpdateTaskModal: React.FC<Props> = ({
     } else if (userData) {
       userId = userData.users[0].id
     }
-    updateTask({
-      variables: {
-        updateTaskId: id,
-        title: taskTitle,
-        description: taskDescription,
-        status: boardCategory,
-        userId,
-      },
-    })
+    toast.promise(
+      updateTask({
+        variables: {
+          updateTaskId: id,
+          title: taskTitle,
+          description: taskDescription,
+          status: boardCategory,
+          userId,
+        },
+      }),
+      {
+        loading: 'Updating...',
+        error: 'Something went wrong☹️',
+        success: 'Updated sucessfully 🎉',
+      }
+    )
 
     closeModal()
   }
@@ -173,7 +181,9 @@ const UpdateTaskModal: React.FC<Props> = ({
                       >
                         {userData &&
                           userData.users.map((user) => (
-                            <option value={user.id}>{user.name}</option>
+                            <option key={user.id} value={user.id}>
+                              {user.name}
+                            </option>
                           ))}
                       </select>
                     </div>

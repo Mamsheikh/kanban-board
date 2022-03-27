@@ -7,8 +7,8 @@ query Tasks {
     userId
     user {
       id
-      image
       name
+      image
     }
   }
 }

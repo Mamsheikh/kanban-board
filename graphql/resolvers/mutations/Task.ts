@@ -1,3 +1,4 @@
+import { getSession } from 'next-auth/react'
 import { extendType, nonNull, stringArg } from 'nexus'
 
 export const TaskMutations = extendType({
@@ -7,20 +8,30 @@ export const TaskMutations = extendType({
     t.field('createTask', {
       type: 'Task',
       args: {
+        projectId: nonNull(stringArg()),
         title: nonNull(stringArg()),
         description: nonNull(stringArg()),
         status: nonNull(stringArg()),
-        userId: stringArg(),
       },
-      resolve(_, args, ctx) {
-        return ctx.prisma.task.create({
-          data: {
-            title: args.title,
-            description: args.description,
-            status: args.status,
-            user: { connect: { id: args.userId } },
-          },
+      async resolve(_, args, ctx) {
+        const req = ctx.req
+        const session = await getSession({ req })
+        const user = await ctx.prisma.user.findUnique({
+          where: { email: session.user.email },
         })
+        try {
+          return ctx.prisma.task.create({
+            data: {
+              project: { connect: { id: args.projectId } },
+              title: args.title,
+              description: args.description,
+              status: args.status,
+              user: { connect: { id: user.id } },
+            },
+          })
+        } catch (error) {
+          throw new Error(`failed to create task: ${error}`)
+        }
       },
     }),
       //Update Task

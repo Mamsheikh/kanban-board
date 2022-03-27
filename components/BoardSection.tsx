@@ -30,7 +30,7 @@ const BoardSection: React.FC<BoardSectionProps> = ({ title, tasks }) => {
         </h3>
         <Droppable droppableId={title}>
           {(provided) => (
-            <div className="min-h-0 flex-1 overflow-y-auto">
+            <div className="min-h-0 flex-1 overflow-y-auto  scrollbar scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300">
               <ul
                 className="px-3 pt-2 pb-3"
                 ref={provided.innerRef}
@@ -41,7 +41,7 @@ const BoardSection: React.FC<BoardSectionProps> = ({ title, tasks }) => {
                     <Issue
                       key={task.id}
                       title={task.title}
-                      image={task.user.image}
+                      image={task.user?.image}
                       description={task.description}
                       status={title}
                       id={task.id}

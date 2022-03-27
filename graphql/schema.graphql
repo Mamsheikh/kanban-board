@@ -3,12 +3,25 @@
 
 
 type Mutation {
-  createTask(description: String!, status: String!, title: String!, userId: String): Task
+  createProject(description: String!, name: String!, sourceCode: String, website: String): Project
+  createTask(description: String!, projectId: String!, status: String!, title: String!): Task
   deleteTask(id: String!): Task
   updateTask(description: String, id: String!, status: String, title: String, userId: String): Task
 }
 
+type Project {
+  description: String!
+  id: String!
+  name: String!
+  sourceCode: String
+  tasks: [Task]
+  user: User
+  website: String
+}
+
 type Query {
+  project(projectId: String!): Project!
+  projects: [Project]!
   task(userId: String!): Task
   tasks: [Task]!
   user(email: String!): User!
@@ -23,6 +36,7 @@ enum Role {
 type Task {
   description: String
   id: String!
+  project: Project
   status: String
   title: String
   user: User
@@ -32,7 +46,7 @@ type Task {
 type User {
   email: String!
   id: String!
-  image: String!
+  image: String
   isAdmin: Boolean!
   name: String!
   role: Role!
