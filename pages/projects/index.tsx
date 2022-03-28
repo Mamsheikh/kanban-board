@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { FaKeyboard } from 'react-icons/fa'
@@ -6,7 +6,7 @@ import { Task, User } from '../../generated/graphql'
 import prisma from '../../lib/prisma'
 import Head from 'next/head'
 import { useSession } from 'next-auth/react'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 
 interface Project {
   description: string
@@ -21,9 +21,13 @@ interface Project {
 
 const Projects = ({ projects }) => {
   const { data: session } = useSession()
-  if (!session) {
-    Router.push('/')
-  }
+  const router = useRouter()
+  useEffect(() => {
+    if (!session) {
+      router.push('/')
+    }
+  }, [session])
+
   return (
     <>
       <Head>
