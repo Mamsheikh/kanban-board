@@ -14,11 +14,11 @@ export const TaskMutations = extendType({
         status: nonNull(stringArg()),
       },
       async resolve(_, args, ctx) {
-        // const req = ctx.req
-        // const session = await getSession({ req })
-        // const user = await ctx.prisma.user.findUnique({
-        //   where: { email: session.user.email },
-        // })
+        const req = ctx.req
+        const session = await getSession({ req })
+        const user = await ctx.prisma.user.findUnique({
+          where: { email: session.user.email },
+        })
         try {
           return ctx.prisma.task.create({
             data: {
@@ -26,7 +26,7 @@ export const TaskMutations = extendType({
               title: args.title,
               description: args.description,
               status: args.status,
-              user: { connect: { id: ctx.user.id } },
+              user: { connect: { id: user.id } },
             },
           })
         } catch (error) {
