@@ -17,9 +17,11 @@ export const ProjectMutations = extendType({
       async resolve(_, args, ctx) {
         const req = ctx.req
         const session = await getSession({ req })
+        console.log(session)
         const user = await ctx.prisma.user.findUnique({
           where: { email: session.user.email },
         })
+        console.log(user)
         try {
           return ctx.prisma.project.create({
             data: {
