@@ -4,8 +4,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "gen": "graphql-codegen --config codegen.yml"
+    "gen": "graphql-codegen --config codegen.yml",
+    "postinstall": "prisma generate"
   },
+  "postinstall": "prisma generate",
   "dependencies": {
     "@apollo/client": "^3.5.10",
     "@graphql-codegen/cli": "^2.6.2",
