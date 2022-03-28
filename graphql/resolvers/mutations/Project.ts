@@ -15,11 +15,11 @@ export const ProjectMutations = extendType({
         // userId: stringArg(),
       },
       async resolve(_, args, ctx) {
-        // const req = ctx.req
-        // const session = await getSession({ req })
+        const req = ctx.req
+        const session = await getSession({ req })
         // console.log(session)
         const user = await ctx.prisma.user.findUnique({
-          where: { id: ctx.userId },
+          where: { email: session?.user.email },
         })
         console.log(user)
         try {

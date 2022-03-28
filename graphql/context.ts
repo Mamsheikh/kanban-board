@@ -7,7 +7,7 @@ export type Context = {
   prisma: PrismaClient
   req: NextApiRequest
   res: NextApiResponse
-  userId: string
+  // userId: string
   // email: string;
   // user: User;
 }
@@ -21,15 +21,15 @@ export async function createContext({
   req: NextApiRequest
   res: NextApiResponse
 }): Promise<Context> {
-  const session = await getSession({ req })
-  const user = await prisma.user.findUnique({
-    where: { email: session.user.email },
-  })
+  // const session = await getSession({ req })
+  // const user = await prisma.user.findUnique({
+  //   where: { email: session.user.email },
+  // })
   return {
     prisma,
     req,
     res,
-    userId: user.id,
+    // userId: user.id,
     // email: session.user.email,
     // user,
   }
