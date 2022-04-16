@@ -26,6 +26,7 @@ export type Mutation = {
 
 export type MutationCreateProjectArgs = {
   description: Scalars['String'];
+  email: Scalars['String'];
   name: Scalars['String'];
   sourceCode?: InputMaybe<Scalars['String']>;
   website?: InputMaybe<Scalars['String']>;
@@ -34,6 +35,7 @@ export type MutationCreateProjectArgs = {
 
 export type MutationCreateTaskArgs = {
   description: Scalars['String'];
+  email: Scalars['String'];
   projectId: Scalars['String'];
   status: Scalars['String'];
   title: Scalars['String'];
@@ -118,6 +120,7 @@ export type User = {
 
 export type CreateProjectMutationVariables = Exact<{
   name: Scalars['String'];
+  email: Scalars['String'];
   description: Scalars['String'];
   website?: InputMaybe<Scalars['String']>;
   sourceCode?: InputMaybe<Scalars['String']>;
@@ -129,6 +132,7 @@ export type CreateProjectMutation = { __typename?: 'Mutation', createProject?: {
 export type CreateTaskMutationVariables = Exact<{
   projectId: Scalars['String'];
   title: Scalars['String'];
+  email: Scalars['String'];
   description: Scalars['String'];
   status: Scalars['String'];
 }>;
@@ -173,9 +177,10 @@ export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'Us
 
 
 export const CreateProjectDocument = gql`
-    mutation CreateProject($name: String!, $description: String!, $website: String, $sourceCode: String) {
+    mutation CreateProject($name: String!, $email: String!, $description: String!, $website: String, $sourceCode: String) {
   createProject(
     name: $name
+    email: $email
     description: $description
     website: $website
     sourceCode: $sourceCode
@@ -212,6 +217,7 @@ export type CreateProjectMutationFn = Apollo.MutationFunction<CreateProjectMutat
  * const [createProjectMutation, { data, loading, error }] = useCreateProjectMutation({
  *   variables: {
  *      name: // value for 'name'
+ *      email: // value for 'email'
  *      description: // value for 'description'
  *      website: // value for 'website'
  *      sourceCode: // value for 'sourceCode'
@@ -226,10 +232,11 @@ export type CreateProjectMutationHookResult = ReturnType<typeof useCreateProject
 export type CreateProjectMutationResult = Apollo.MutationResult<CreateProjectMutation>;
 export type CreateProjectMutationOptions = Apollo.BaseMutationOptions<CreateProjectMutation, CreateProjectMutationVariables>;
 export const CreateTaskDocument = gql`
-    mutation CreateTask($projectId: String!, $title: String!, $description: String!, $status: String!) {
+    mutation CreateTask($projectId: String!, $title: String!, $email: String!, $description: String!, $status: String!) {
   createTask(
     projectId: $projectId
     title: $title
+    email: $email
     description: $description
     status: $status
   ) {
@@ -261,6 +268,7 @@ export type CreateTaskMutationFn = Apollo.MutationFunction<CreateTaskMutation, C
  *   variables: {
  *      projectId: // value for 'projectId'
  *      title: // value for 'title'
+ *      email: // value for 'email'
  *      description: // value for 'description'
  *      status: // value for 'status'
  *   },

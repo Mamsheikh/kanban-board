@@ -3,8 +3,8 @@
 
 
 type Mutation {
-  createProject(description: String!, name: String!, sourceCode: String, website: String): Project
-  createTask(description: String!, projectId: String!, status: String!, title: String!): Task
+  createProject(description: String!, email: String!, name: String!, sourceCode: String, website: String): Project
+  createTask(description: String!, email: String!, projectId: String!, status: String!, title: String!): Task
   deleteTask(id: String!): Task
   updateTask(description: String, id: String!, status: String, title: String, userId: String): Task
 }

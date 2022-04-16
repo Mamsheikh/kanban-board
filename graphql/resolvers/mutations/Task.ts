@@ -10,12 +10,11 @@ export const TaskMutations = extendType({
       args: {
         projectId: nonNull(stringArg()),
         title: nonNull(stringArg()),
+        email: nonNull(stringArg()),
         description: nonNull(stringArg()),
         status: nonNull(stringArg()),
       },
       async resolve(_, args, ctx) {
-        const req = ctx.req
-        const session = await getSession({ req })
         // const user = await ctx.prisma.user.findUnique({
         //   where: { email: session.user.email },
         // })
@@ -26,7 +25,7 @@ export const TaskMutations = extendType({
               title: args.title,
               description: args.description,
               status: args.status,
-              user: { connect: { email: session?.user?.email } },
+              user: { connect: { email: args.email } },
             },
           })
         } catch (error) {

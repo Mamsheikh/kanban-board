@@ -10,6 +10,7 @@ import {
 import { useRecoilState } from 'recoil'
 import { statuState } from '../atoms/status'
 import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 
 interface Props {
   isOpen: boolean
@@ -26,6 +27,7 @@ const AddTaskModal: React.FC<Props> = ({
   projectId,
 }) => {
   const router = useRouter()
+  const { data: session } = useSession()
   const refreshData = () => {
     router.replace(router.asPath)
   }
@@ -44,27 +46,30 @@ const AddTaskModal: React.FC<Props> = ({
     //   userId = userData.users[0].id
     // }
     e.preventDefault()
-    toast.promise(
-      createTask({
-        variables: {
-          title,
-          description,
-          status,
-          projectId,
-        },
-        refetchQueries: () => [
-          {
-            query: ProjectDocument,
-            variables: { projectId: projectId as string },
+    if (session) {
+      toast.promise(
+        createTask({
+          variables: {
+            title,
+            email: session?.user?.email,
+            description,
+            status,
+            projectId,
           },
-        ],
-      }),
-      {
-        success: 'Task created 🎉',
-        error: 'Oops! something went wrong😓',
-        loading: 'Creating task...',
-      }
-    )
+          refetchQueries: () => [
+            {
+              query: ProjectDocument,
+              variables: { projectId: projectId as string },
+            },
+          ],
+        }),
+        {
+          success: 'Task created 🎉',
+          error: 'Oops! something went wrong😓',
+          loading: 'Creating task...',
+        }
+      )
+    }
 
     closeModal()
   }

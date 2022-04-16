@@ -9,6 +9,7 @@ export const ProjectMutations = extendType({
       type: 'Project',
       args: {
         name: nonNull(stringArg()),
+        email: nonNull(stringArg()),
         description: nonNull(stringArg()),
         website: stringArg(),
         sourceCode: stringArg(),
@@ -17,18 +18,16 @@ export const ProjectMutations = extendType({
       async resolve(_, args, ctx) {
         // console.log(user)
         try {
-          const req = ctx.req
-          const session = await getSession({ req })
-          // // console.log(session)
-          // const user = await ctx.prisma.user.findUnique({
-          //   where: { email: session?.user.email },
-          // })
+          
+          const user = await ctx.prisma.user.findUnique({
+            where: { email: args.email },
+          })
           return ctx.prisma.project.create({
             data: {
               name: args.name,
               description: args.description,
               website: args.website,
-              user: { connect: { email: session?.user?.email } },
+              user: { connect: { email: args.email } },
               sourceCode: args.sourceCode,
             },
           })

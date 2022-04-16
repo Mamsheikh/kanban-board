@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -7,6 +8,7 @@ import { loadingState } from '../atoms/loading'
 import { useCreateProjectMutation } from '../generated/graphql'
 
 const New = () => {
+  const { data: session } = useSession()
   const router = useRouter()
   const [loaderState, setLoadingState] = useRecoilState(loadingState)
   const [createProject, { loading, error }] = useCreateProjectMutation({
@@ -35,21 +37,24 @@ const New = () => {
 
     if (!name && !description) return
 
-    toast.promise(
-      createProject({
-        variables: {
-          name,
-          description,
-          sourceCode,
-          website,
-        },
-      }),
-      {
-        loading: 'Creating a new project...',
-        error: 'Oops, something went wrong😓',
-        success: 'Project created 🎉',
-      }
-    )
+    if (session) {
+      toast.promise(
+        createProject({
+          variables: {
+            name,
+            email: session?.user?.email,
+            description,
+            sourceCode,
+            website,
+          },
+        }),
+        {
+          loading: 'Creating a new project...',
+          error: 'Oops, something went wrong😓',
+          success: 'Project created 🎉',
+        }
+      )
+    }
   }
   return (
     <>

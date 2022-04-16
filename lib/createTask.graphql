@@ -1,12 +1,14 @@
 mutation CreateTask(
   $projectId: String!
   $title: String!
+  $email: String!
   $description: String!
   $status: String!
 ) {
   createTask(
     projectId: $projectId
     title: $title
+    email: $email
     description: $description
     status: $status
   ) {

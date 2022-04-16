@@ -1,11 +1,13 @@
 mutation CreateProject(
   $name: String!
+  $email: String!
   $description: String!
   $website: String
   $sourceCode: String
 ) {
   createProject(
     name: $name
+    email: $email
     description: $description
     website: $website
     sourceCode: $sourceCode
