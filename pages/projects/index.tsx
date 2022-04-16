@@ -6,7 +6,9 @@ import { Task, User } from '../../generated/graphql'
 import prisma from '../../lib/prisma'
 import Head from 'next/head'
 import { useSession } from 'next-auth/react'
-import Router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
+import { useRecoilState } from 'recoil'
+import { loadingState } from '../../atoms/loading'
 
 interface Project {
   description: string
@@ -20,12 +22,14 @@ interface Project {
 }
 
 const Projects = ({ projects }) => {
+  const [loaderState, setLoadingState] = useRecoilState(loadingState)
   const { data: session } = useSession()
   const router = useRouter()
   useEffect(() => {
     if (!session) {
       router.push('/')
     }
+    setLoadingState(true)
   }, [session])
 
   return (
@@ -35,7 +39,7 @@ const Projects = ({ projects }) => {
         <meta name="description" content="Collab projects" />
       </Head>
 
-      <div className="grid cursor-pointer grid-cols-1 gap-5 p-3  md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid cursor-pointer grid-cols-1 gap-5 overflow-y-auto  p-3 md:grid-cols-2 xl:grid-cols-3">
         {projects.map((project: Project) => (
           <div
             key={project.id}

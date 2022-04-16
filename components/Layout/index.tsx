@@ -29,8 +29,8 @@ const Layout = ({ children }: any) => {
         <div className="flex-1 overflow-auto  scrollbar scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300">
           <main
             className={` ${
-              loaderState ? '' : 'inline-flex'
-            } h-full overflow-hidden p-3`}
+              loaderState ? '' : 'inline-flex overflow-hidden'
+            } h-full  p-3`}
           >
             {children}
           </main>
