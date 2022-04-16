@@ -23,6 +23,7 @@ const New = () => {
   const [nameErr, setNameErr] = useState('')
   const [descErr, setDescErr] = useState('')
   useEffect(() => {
+    if (!session) router.push('/')
     setLoadingState(true)
   }, [loaderState])
 
